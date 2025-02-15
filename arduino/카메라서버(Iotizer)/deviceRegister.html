@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name=”apple-mobile-web-app-capable” content=”yes”>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+    <title>IoTIZER_v3</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="stylesheet/camera.css">
+    <link rel="manifest" href="json/manifest.json">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <!-- <script src="js/jquery-asRange.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://kit.fontawesome.com/151410698b.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="camera-container" style="position: fixed" style="display:none;">
+
+      <video src="" class="camera-canvas" id="video" autoplay playsinline></video>
+      <canvas class="image-canvas" id="imageCanvas"></canvas>
+  </div>
+
+  <div class="input_cover" style="display:none;">
+
+  </div>
+
+  <div class="title_ground">
+    <div class="title_text">
+      <div class="title_backicon">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <div class="t_text_main" id="textMain">
+        New IoTIZER
+      </div>
+      <div class="t_text_sub" id="textSub">
+        Take photo according to the guide
+      </div>
+    </div>
+  </div>
+
+  <div class="guideline" id="guidelineImage">
+    <div class="guideline_img" style="background-image: url(./images/guideline.png); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+
+    <div class="get_powerUID" style="display: none;">
+      <div class="textbox">
+        <label for="input">Device Name</label>
+        <input type="text" id="input_">
+      </div>
+
+      <div class="textbox2">
+        <label for="input">Power UID</label>
+        <input type="text" id="input2_">
+      </div>
+
+      <div class="input_btns">
+        <div class="cancle" id="cancle">
+          Cancle
+        </div>
+        <div class="complete" id="complete">
+          Complete
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn_bottom">
+    <div class="btn_beforeP">
+      <div class="btns" style="background-image: url(./images/cameraIcon.png); background-size: cover;">
+      </div>
+    </div>
+
+    <div class="btn_afterP left" style="display:none;">
+      <div class="btns" style="background-image: url(./images/refreshIcon.png); background-size: cover;">
+      </div>
+    </div>
+    <div class="btn_afterP right" id="takeImage" style="display:none;">
+      <div class="btns" style="background-image: url(./images/completeIcon.png); background-size: cover;">
+      </div>
+    </div>
+  </div>
+
+
+
+<!--
+  <li class="device-li">
+    <button class="device-btn" id="device' + deviceIndex + '">
+      <div class="device-li-opacity">'+ deviceName +'</div>
+    </button>
+  </li> -->
+
+    <script src="./js/camera.js"></script>
+    <script>
+      //var server_socket = io.connect('143.248.250.70:80');
+      //var serverS_socket = io.connect('https://143.248.250.70:443');
+      var data_from_arduino;
+      var data_to_arduino ={};
+      data_to_arduino.button = "NONE";
+      data_to_arduino.xPos = "0";
+      data_to_arduino.yPos = "0";
+
+      var activeTab = sessionStorage.getItem('activeTab');
+
+      $(document).ready(function() {
+        let viewheight = $(window).height();
+        let viewwidth = $(window).width();
+        let viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute("content", "height=" + viewheight + "px, width=" + viewwidth + "px, initial-scale=1.0");
+        $('.camera-container').css('width', $(window).width());
+        $('.camera-container').css('height', $(window).height());
+        $('.camera-canvas').css('width', $(window).width());
+        $('.camera-canvas').css('height', $(window).height());
+        $('.image-canvas').css('width', $(window).width());
+        $('.image-canvas').css('height', $(window).height());
+      });
+
+    </script>
+</body>
+</html>

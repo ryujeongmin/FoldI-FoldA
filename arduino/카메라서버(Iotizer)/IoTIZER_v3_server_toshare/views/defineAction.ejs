@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name=”apple-mobile-web-app-capable” content=”yes”>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+    <title>IoTIZER_v3</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="stylesheet/newAction.css">
+    <link rel="stylesheet" href="stylesheet/d3.css">
+    <link rel="manifest" href="json/manifest.json">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <!-- <script src="js/jquery-asRange.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://kit.fontawesome.com/151410698b.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="background_image" style="position: fixed" style="display:none;">
+
+  </div>
+
+  <div class="input_cover">
+    <div class="list_area" id="listArea">
+      <div class="list_li" id="list_template" style="display:none;">
+        <div class="item_settings">
+          <div class="setting_icon_show" style="background-image: url(./images/_checkbox.png); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+
+          </div>
+          <div class="setting_icon_hide" style="display:none; background-image: url(./images/checkbox_.png); background-size: contain; background-position: center center; background-repeat: no-repeat; display: none;">
+
+          </div>
+        </div>
+        <div class="list_li_item">
+          <div class="list_li_image_cover">
+          </div>
+          <div class="list_li_image" style="background-image: none; background-size: cover; background-position: center center;">
+            <div class="list_li_info_text">
+              <div class="iotizer_name">
+                My IoTIZER
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="get_actionName" style="display: none;">
+      <div class="textbox">
+        <label for="input">Action Name</label>
+        <input type="text" id="input_">
+      </div>
+
+      <div class="input_btns">
+        <div class="cancle" id="cancle">
+          Cancle
+        </div>
+        <div class="complete" id="complete">
+          Complete
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="title_ground">
+    <div class="title_text">
+      <div class="title_backicon">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <div class="t_text_main" id="textMain">
+        New Action
+      </div>
+      <div class="t_text_sub" id="textSub">
+        Select the device
+      </div>
+    </div>
+  </div>
+
+  <div class="svgCanvas" id="svgCanvas">
+
+  </div>
+  <div class="svgCanvasP" id="svgCanvasP">
+
+  </div>
+
+  <div class="btn_bottom">
+    <div class="btn_beforeP">
+      NEXT
+    </div>
+
+    <div class="btn_afterP left" style="display:none;">
+      <div class="btns_left" style="background-image: url(./images/refreshIcon.png); background-size: cover;">
+      </div>
+    </div>
+    <div class="btn_afterP right" id="takeImage" style="display:none;">
+      <div class="btns_right" style="background-image: url(./images/completeIcon.png); background-size: cover;">
+      </div>
+    </div>
+  </div>
+
+    <script src="/js/controlPoints.js"></script>
+    <script>
+      var server_socket = io.connect(window.location.host);
+      //var serverS_socket = io.connect('https://143.248.250.70:443');
+      var data_from_arduino;
+      var data_to_arduino ={};
+      data_to_arduino.button = "NONE";
+      data_to_arduino.xPos = "0";
+      data_to_arduino.yPos = "0";
+
+      var deviceN;
+      var actionN;
+      var ruleN;
+      var userUID;
+      var dataURL;
+      var deviceName;
+      var checkedItem = 0;
+      var deviceList = new Array();
+
+      var activeTab = sessionStorage.getItem('activeTab');
+
+      $(".title_backicon").click(function(){
+        location.href = "/"
+
+        // setTimeout(function(){
+        //   $('.contents_lists').hide();
+        //   $('.contents_lists').removeClass('on');
+        //   $('.contents_lists').eq(0).show();
+        //   $('.contents_lists').eq(0).addClass('on');
+        //   document.getElementById("textMain").innerHTML = "My IoTIZERs";
+        //   document.getElementById("textSub").innerHTML = "Registered devices";
+        // }, 1000);
+      })
+
+      $(document).ready(function() {
+        let viewheight = $(window).height();
+        let viewwidth = $(window).width();
+        let viewport = document.querySelector("meta[name=viewport]");
+        viewport.setAttribute("content", "height=" + viewheight + "px, width=" + viewwidth + "px, initial-scale=1.0");
+
+        $.ajax({
+          url: '/getdata',
+          method: 'post',
+          data: {},
+          success: function(data){
+            deviceN = data.deviceN;
+            actionN = data.actionN;
+            ruleN = data.ruleN;
+            userUID = data.userUID;
+            dataURL = data.dataURL;
+            deviceName = data.deviceName;
+
+            for(var i in dataURL){
+              showDevice(dataURL[i], deviceName[i], i);
+            }
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        })
+
+        // var svgCanvas = d3.select(".svgCanvas")
+        //   .append("svg")
+
+        // var svgCanvasP = d3.select(".svgCanvasP")
+        //   .append("svg")
+      });
+
+      $(".btn_beforeP").click(function(){
+        if(checkedItem == 1) {
+          $('.svgCanvas').show();
+          console.log('canvas show')
+          $('.btn_beforeP').hide();
+          $('.btn_afterP').show();
+          $('.list_area').addClass('phase2');
+          //$('.input_cover').css('background-color', 'rgba(255,255,255,0.4)');
+          $('.t_text_sub').text('Define the path');
+
+          clearCP();
+          drawCP_a('device' + String($('.svgCanvas').prop('idx')));
+          console.log('draw')
+        }
+      })
+
+      $(".btns_left").click(function() {
+        console.log('clear')
+        clearPath();
+      })
+
+      $(".btn_afterP.right").click(function(){
+        $('.btn_bottom').hide();
+        $('.svgCanvas').hide();
+        $('.svgCanvasP').hide();
+        $('.get_actionName').show();
+        document.getElementById("textSub").innerHTML = "Enter the name of new action";
+        //document.getElementById("textSub").innerHTML = window.innerHeight + ", " + imageCanvas.height;
+      })
+
+      $('.textbox').click(function(){
+        $('.textbox input[type="text"]').focus();
+      })
+
+      var placeholderTarget = $('#input_');
+      placeholderTarget.on('focus', function(){
+        $(this).siblings('label').fadeOut('fast');
+        $('.get_actionName').addClass('input');
+      });
+      placeholderTarget.on('focusout', function(){
+        $('.get_actionName').removeClass('input');
+        if($(this).val() == ''){
+          $(this).siblings('label').fadeIn('fast');
+        }
+      });
+
+      $("#cancle").click(function(){
+        $('.btn_bottom').show();
+        $('.svgCanvas').show();
+        $('.svgCanvasP').show();
+        $('.get_actionName').hide();
+        document.getElementById("textSub").innerHTML = "Define the path";
+      })
+
+      $("#complete").click(function(){
+        var fromClient_newItem = {};
+        fromClient_newItem.type = 'action';
+        fromClient_newItem.actionName = $('#input_').val();
+        fromClient_newItem.deviceIdx = $('.svgCanvas').prop('idx');
+        fromClient_newItem.pathPoints = pathPoints;
+        fromClient_newItem.path = path_;
+        fromClient_newItem.pathList = path_list;
+        server_socket.emit('fromClient_newItem', fromClient_newItem);
+
+        setTimeout(function(){
+          location.href = "/";
+          clearPath();
+        }, 500);
+      })
+
+      function showDevice(_img, _name, _idx){
+        var _em = $('#list_template').clone();
+        _em.prop('deviceIdx', _idx);
+        _em.prop('setting', false);
+
+        //------------ 프로필 이미지 설정
+        _em.prop('imgURL', _img);
+        _em.find('.list_li_image').css('background-image', 'url("' + _em.prop('imgURL') + '")', 'background-position', 'center center', 'background-repeat', 'no-repeat');
+        _em.find('.iotizer_name').text(String(_name));
+        _em.prop('name', String(_name));
+        deviceList.push(_em);
+
+        //------------ 세팅 아이콘
+        _em.find('.setting_icon_show').click(function(){
+          $('.svgCanvas').prop('idx', Number(_idx)+1);
+          console.log($('.svgCanvas').prop('idx'));
+          for (var i in deviceList) {
+            deviceList[i].prop('setting', false);
+            deviceList[i].find('.setting_icon_hide').trigger('click');
+            checkedItem = 0;
+          }
+          _em.prop('setting', true);
+          checkedItem ++;
+          _em.find('.setting_icon_show').hide();
+          _em.find('.setting_icon_hide').show();
+          $('.background_image').css('background-image', 'url("' + _em.prop('imgURL') + '")').css('background-position', 'center center').css('background-repeat', 'no-repeat').css('background-size', 'cover');
+          $('.btn_beforeP').css('color', 'white').css('background-image', 'linear-gradient(360deg, rgba(222,140,131,1) 50%, rgba(224,90,82,1) 100%');
+        });
+        _em.find('.setting_icon_hide').click(function() {
+          _em.prop('setting', false);
+          checkedItem --;
+          _em.find('.setting_icon_show').show();
+          _em.find('.setting_icon_hide').hide();
+          if(checkedItem == 0) {
+            $('.background_image').css('background-image', 'none');
+            $('.btn_beforeP').css('color', 'rgba(170,170,170)').css('background-image', 'none');
+          }
+        })
+        _em.find('.list_li_image_cover').click(function() {
+          if(_em.prop('setting') == false) {
+            _em.find('.setting_icon_show').trigger('click');
+          } else if (_em.prop('setting') == true) {
+            _em.find('.setting_icon_hide').trigger('click');
+          }
+        })
+        _em.find('.iotizer_name').click(function() {
+          if(_em.prop('setting') == false) {
+            _em.find('.setting_icon_show').trigger('click');
+          } else if (_em.prop('setting') == true) {
+            _em.find('.setting_icon_hide').trigger('click');
+          }
+        })
+
+        $('#listArea').append(_em);
+        _em.show();
+      }
+
+    </script>
+</body>
+</html>

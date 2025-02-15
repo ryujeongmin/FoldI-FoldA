@@ -1,0 +1,103 @@
+body {
+  overflow: hidden;
+}
+
+#pointing_left {
+  margin-left: 0vw;
+  width: 50vw;
+  height: 100vh;
+  position: absolute;
+  margin-top: 0vh;
+  background-color : rgba(201, 196, 196,0);
+}
+
+
+
+#pointing_right {
+  margin-left: 50vw;
+  width: 50vw;
+  height: 100vh;
+  position: absolute;
+  margin-top: 0vh;
+  background-color : rgba(181, 181, 181, 0);
+}
+
+ 
+
+
+#ready_btn {
+  margin-left:48vw;
+  width:4vw;
+  height:6vh;
+  position : absolute;
+  margin-top:92vh;
+}
+
+#img {
+  width: 100%;
+  height: 100%;
+}
+
+
+#img_clapping_btn{
+  width:5vw;
+  height:10vh;
+  margin-left :60vw;
+  position : absolute;
+  margin-top:6vh;
+}
+
+
+/*상중하 버튼*/
+#img_up_btn_left {
+  width:5vw;
+  height:10vh;
+  margin-left :0vw;
+  position : absolute;
+  margin-top:2vh;
+}
+
+#img_up_btn_right {
+  width:5vw;
+  height:10vh;
+  margin-left:95vw;
+  margin-right :0vw;
+  position : absolute;
+  margin-top:2vh;
+
+}
+
+#img_middle_btn_left {
+  width:5vw;
+  height:10vh;
+  margin-left :0vw;
+  position : absolute;
+  margin-top:12vh;
+}
+
+#img_middle_btn_right {
+  width:5vw;
+  height:10vh;
+  margin-left:95vw;
+  margin-right :0vw;
+  position : absolute;
+  margin-top:12vh;
+}
+
+#img_down_btn_left {
+  width:5vw;
+  height:10vh;
+  margin-left :0vw;
+  position : absolute;
+  margin-top:22vh;
+}
+
+#img_down_btn_right {
+  width:5vw;
+  height:10vh;
+  margin-left:95vw;
+  position : absolute;
+  margin-top:22vh;
+}
+
+

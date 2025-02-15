@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "short_name": "IoTIZER",
+  "version": "3.0",
+  "name": "IoTIZER",
+  "background_color": "#e05a52",
+  "theme_color": "#e05a52",
+  "icons": [
+    {
+      "src": "/images/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "start_url": "/"
+}

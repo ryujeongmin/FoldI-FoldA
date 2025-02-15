@@ -1,0 +1,195 @@
+line {
+  shape-rendering: crispEdges;
+  vector-effect: non-scaling-stroke;
+}
+
+/* svg {
+  width: 100vw;
+  height: 78vh;
+  position:absolute;
+} */
+
+.circle-push {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-push2 {
+  r: 20;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle_template1 {
+  r: 6;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 2px;
+}
+
+.circle-push3 {
+  r: 20;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(200,200,200,1);
+  stroke-width: 5px;
+}
+
+.circle_template2 {
+  r: 6;
+  fill: rgba(222,140,131,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 2px;
+}
+
+.circle-push3.selected {
+  stroke: rgba(222,140,131,1);
+}
+
+
+/* .circle-push-testBtn {
+  fill: #6D95DA;
+}
+
+.circle-drag-testBtn {
+  fill: #6D95DA;
+}
+
+.circle-rotate-testBtn {
+  fill: #6D95DA;
+} */
+
+.circle-drag-start {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-drag-line {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-drag-handle {
+  r: 0;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-drag-handle2 {
+  r: 20;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-drag {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-drag-end {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-rotate-start {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-rotateLine {
+  r: 20;
+  fill: none;
+  stroke: rgba(222,140,131,1);
+  stroke-width: 10px;
+}
+
+.circle-rotate {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-rotate-end {
+  r: 20;
+  fill: rgba(255,255,255,0.2);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle-rotate-center {
+  r: 6;
+  fill:  rgba(222,140,131,1);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 1px;
+}
+
+.circle_template0 {
+  r: 6;
+  fill:  rgba(224,90,82,1);
+  stroke: rgba(224,90,82,1);
+  stroke-width: 1px;
+}
+
+.circle_template4 {
+  r: 6;
+  fill: rgba(200,200,200,1);
+  stroke: rgba(200,200,200,1);
+  stroke-width: 1px;
+}
+
+.circle-rotate-center3 {
+  r: 6;
+  fill: rgba(200,200,200);
+  stroke: rgba(200,200,200);
+  stroke-width: 1px;
+}
+
+.circle-rotate-handle {
+  r: 16;
+  fill: rgba(222,140,131,1);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 1px;
+}
+
+.circle-rotate-handle2 {
+  r: 20;
+  fill: rgba(255,255,255,0.8);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 5px;
+}
+
+.circle {
+  r: 18;
+  fill: #00b04f;
+  stroke: rgba(255,255,255,0);
+  stroke-width: 0px;
+}
+
+.circle-pathEnd {
+  r: 12;
+  fill: rgba(222,140,131,1);
+  stroke: rgba(222,140,131,1);
+  stroke-width: 1px;
+}
+
+.circle-pathEnd3 {
+  r: 12;
+  fill: rgba(200,200,200,1);
+  stroke: rgba(200,200,200,1);
+  stroke-width: 1px;
+}

@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name=”apple-mobile-web-app-capable” content=”yes”>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#e05a5e">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>IoTIZER_v3</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/stylesheet/style.css">
+  <link rel="stylesheet" href="/stylesheet/d3.css">
+  <link rel="stylesheet" href="/stylesheet/workspace.css">
+  <link rel="manifest" href="/json/manifest.json" />
+
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="https://code.jquery.com/mobile/1.5.0-rc1/jquery.mobile-1.5.0-rc1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://kit.fontawesome.com/151410698b.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <div class="cover_black" style="display:none;">
+
+  </div>
+
+  <div class="workspace">
+    <div class="workspace_info">
+      <div class="w_control_bar">
+
+      </div>
+      <div class="w_text_main" id="textMainW">
+        <label for="input" id="label">My IoTIZER</label>
+        <input type="text" id="input">
+      </div>
+      <div class="w_text_sub" id="textSubW">
+        Touch to Command
+      </div>
+    </div>
+
+    <div class="workspace_image" style="background-size: cover; background-position: center center;">
+      <div class="cp_edit" style="background-image: url(./images/editBubble_l_t.png); background-size: contain; background-position: center center; background-repeat: no-repeat; display: none;">
+        <div class="cp_test">
+
+        </div>
+        <div class="cp_delete">
+
+        </div>
+      </div>
+      <div class="svgCanvas" id="svgCanvas"></div>
+      <div class="actSvg" id="actSvg">
+      </div>
+      <div class="workspace_cover" style="display: none;"></div>
+    </div>
+    <div class="btn_bottom" style="display: none;">
+      <div class="btn_add">
+        <div class="btns" style="background-image: url(./images/icon_background.png); background-size: cover;">
+          <div class="btns_add" id="_opt" style="background-image: url(./images/plus.png); background-size: cover;">
+          </div>
+        </div>
+        <div class="btns_type" id="push" style="background-image: url(./images/optIcon_push.png); background-size: cover;">
+
+        </div>
+        <div class="btns_type" id="drag" style="background-image: url(./images/optIcon_drag.png); background-size: cover;">
+
+        </div>
+        <div class="btns_type" id="rotate" style="background-image: url(./images/optIcon_rotate.png); background-size: cover;">
+
+        </div>
+      </div>
+      <div class="edit_cancle">
+        <div class="edit_cancle_text">
+          CANCLE
+        </div>
+      </div>
+      <div class="edit_complete">
+        <div class="edit_complete_text">
+          COMPLETE
+        </div>
+      </div>
+    </div>
+    <div class="btn_bottomA" style="display: none;">
+      <div class="btn_afterP left">
+        <div class="btns left" style="background-image: url(./images/refreshIcon.png); background-size: cover;">
+        </div>
+      </div>
+      <div class="btn_afterP right">
+        <div class="btns right" style="background-image: url(./images/completeIcon.png); background-size: cover;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class ="background">
+    <div class="title_ground">
+      <div class="title_text">
+        <div class="t_text_main" id="textMain">
+          My Actions
+        </div>
+        <div class="t_text_sub" id="textSub">
+          Defined action presets
+        </div>
+      </div>
+      <div class="title_setting">
+        <div class="setting_icon_title">
+           <i class="fas fa-ellipsis-v" style="font-size: 1.7rem"></i>
+        </div>
+      </div>
+
+      <div class="logout">
+        Log Out
+      </div>
+    </div>
+
+    <div class="contents">
+      <div class="add_btn">
+        <div class="addBtn_outer" style="background-image: url(./images/plusIcon.png); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+
+        </div>
+      </div>
+
+      <div class="contents_lists" id="iotizerLists" style="display:none;">
+        <div class="list_ul" id="iotizer_list">
+
+        </div>
+
+        <div class="list_li" id="list_template" style="display: none">
+          <div class="item_settings">
+            <div class="setting_icon_show" style="background-image: url(./images/_checkbox.png); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+
+            </div>
+            <div class="setting_icon_hide" style="display:none; background-image: url(./images/checkbox_.png); background-size: contain; background-position: center center; background-repeat: no-repeat; display: none;">
+
+            </div>
+          </div>
+
+          <div class="list_li_item" id="listItem01">
+            <div class="list_li_image_cover" style="display:none;">
+
+            </div>
+            <div class="list_li_image" id="listItem-01" style="background-image: none; background-size: cover; background-position: center center;">
+
+            </div>
+            <div class="list_li_info">
+              <div class="view_icon" style="background-image: url(./images/viewIcon.png); background-size: cover; background-position: center center;">
+
+              </div>
+              <div class="list_li_info_text">
+                <div class="iotizer_name">
+                  My IoTIZER
+                </div>
+                <div class="iotizer_status">
+                  Connected
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="contents_lists on" id="actionList">
+        <div class="list_ul" id="action_list">
+
+        </div>
+
+        <div class="list_li" id="list_template_action" style="display: none">
+          <div class="item_settings">
+            <div class="setting_icon_show" style="background-image: url(./images/_checkbox.png); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+
+            </div>
+            <div class="setting_icon_hide" style="display:none; background-image: url(./images/checkbox_.png); background-size: contain; background-position: center center; background-repeat: no-repeat; display: none;">
+
+            </div>
+          </div>
+
+          <div class="list_li_item" id="listItem">
+            <div class="list_li_image_cover" style="display:none;">
+
+            </div>
+            <div class="list_li_svg">
+              <svg class="listSVG">
+                <path class="listPath" style="stroke: rgba(224,90,82,1); fill: none; stroke-linecap: round; stroke-linejoin: round;">
+                </path>
+              </svg>
+            </div>
+            <div class="list_li_svg2">
+              <svg class="listSVG2">
+                <defs>
+                  <marker class="svg2marker" id="arrowL" markerUnits="strokeWidth" markerWidth="3" markerHeight="3" viewBox="0 0 3 3" refX="1.5" refY="1.5" orient="auto">
+                    <polygon points="0 0, 3 1.5, 0 3, 0.75 1.5, 0 0" fill="rgba(224,90,82,1)"></polygon>
+                  </marker>
+                </defs>
+                <circle class="circle_template0" id="circle_template0" style="display:none"></circle>
+                <circle class="circle_template1" id="circle_template1" style="display:none"></circle>
+                <circle class="circle_template2" id="circle_template2" style="display:none"></circle>
+                <circle class="circle_template4" id="circle_template4" style="display:none"></circle>
+                <path class="path_template" style="display:none"></circle>
+              </svg>
+            </div>
+
+            <div class="list_li_image" id="listItem" style="background-image: none; background-size: cover; background-position: center center;">
+
+            </div>
+            <div class="list_li_info">
+              <div class="view_icon" style="background-image: url(./images/viewIcon.png); background-size: cover; background-position: center center;">
+
+              </div>
+              <div class="list_li_info_text">
+                <div class="action_name">
+                  ActionsName
+                </div>
+                <div class="action_device">
+                  Device in charge
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="contents_lists" id="ruleLists" style="display:none;">
+        <div class="list_ul" id="rule_list">
+
+        </div>
+
+        <div class="rule_item" id="rule_item_template" style="display: none;">
+          <div class="rule_cover"></div>
+          <div class="item_settings">
+            <div class="setting_icon_show" style="background-image: url(./images/_checkbox.png); background-size: contain; background-position: center center; background-repeat: no-repeat;">
+
+            </div>
+            <div class="setting_icon_hide" style="display:none; background-image: url(./images/checkbox_.png); background-size: contain; background-position: center center; background-repeat: no-repeat; display: none;">
+
+            </div>
+          </div>
+          <div class="rule_item_img" style="background-size: cover; background-position: center center;">
+            <div class="rule_condition_b">When condition_</div>
+            <div class="rule_condition">condition</div>
+            <div class="rule_action_b">activate the</div>
+            <div class="rule_action">action</div>
+
+          </div>
+          <div class="rule_item_info">
+            <div id="container">
+              <div id="button" class="button">
+                <label class="switch">
+                    <input type="checkbox" class="switch1" id="switch1" value="OFF">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <div class="list_li_info_text">
+              <div class="rule_name">
+                RuleName
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="foot_white"></div>
+
+  <div class="footer" id="footerTab">
+    <div class="footer_tab" id="iotizers">
+      <div class="tab_text">
+        IoTIZERs
+      </div>
+    </div>
+    <div class="footer_tab" id="actions">
+      <div class="tab_text on">
+        Actions
+      </div>
+    </div>
+    <div class="footer_tab" id="rules">
+      <div class="tab_text">
+        Rules
+      </div>
+    </div>
+  </div>
+
+  <div class="footer hide" id="footerSet">
+    <div class="footer_set" id="edit">
+      <div class="item_setting_icon" id="iconSetEdit">
+        <i class="fas fa-edit"></i>
+      </div>
+      <div class="tab_text_set" id="textSetEdit">
+        Edit
+      </div>
+    </div>
+    <div class="footer_set" id="delete">
+      <div class="item_setting_icon">
+        <i class="fas fa-trash"></i>
+      </div>
+      <div class="tab_text_set">
+        Delete
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/tab.js"></script>
+  <script src="/js/workspace.js"></script>
+  <script src="/js/controlPoints.js"></script>
+  <script>
+    var server_socket = io.connect(window.location.host);
+
+    var deviceN;
+    var actionN;
+    var ruleN;
+    var userUID;
+    var dataURL;
+    var deviceName;
+    var checkedItem = 0;
+    var deviceList = new Array();
+    var actionList = new Array();
+    var ruleList = new Array();
+
+    $(document).ready(function(){
+      $(".setting_icon_title").prop('clicked', false);
+      $.ajax({
+        url: '/getdata',
+        method: 'post',
+        data: {},
+        success: function(data){
+          deviceN = data.deviceN;
+          actionN = data.actionN;
+          ruleN = data.ruleN;
+          userUID = data.userUID;
+          dataURL = data.dataURL;
+          deviceName = data.deviceName;
+          actionInfo = data.actionInfo;
+          pushCP = data.pushCP;
+          dragCP = data.dragCP;
+          rotateCP = data.rotateCP;
+          ruleInfo = data.ruleInfo;
+
+          console.log(data);
+          for(var i in dataURL){
+            addDevice(dataURL[i], deviceName[i], i);
+          }
+          for(var i in actionInfo){
+            addAction(dataURL[Number(actionInfo[i].deviceIndex)-1], actionInfo[i].name, deviceName[Number(actionInfo[i].deviceIndex)-1], i, actionInfo[i].pathList, Number(actionInfo[i].deviceIndex)-1);
+          }
+          for(var i in ruleInfo) {
+            console.log(i)
+            addRule(dataURL[Number(actionInfo[Number(ruleInfo[i].actionIndex)-1].deviceIndex)-1], ruleInfo[i].name, actionInfo[Number(ruleInfo[i].actionIndex)-1].name, ruleInfo[i].if, i, ruleInfo[i].status, ruleInfo[i].condition);
+          }
+        },
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      var svgWidth_act = String(window.innerWidth);
+      var svgHeight_act = String(window.innerHeight*0.78);
+      //var svgCanvas = d3.select("#svgCanvas")
+      //  .append("svg")
+      //    .attr("width", svgWidth_act)
+      //    .attr("height", svgHeight_act)
+
+      var actSVG = d3.select(".actSvg")
+        //.append("svg")
+        //  .attr("width", svgWidth_act)
+        //  .attr("height", svgHeight_act)
+    });
+
+    $(".setting_icon_title").click(function(){
+      if($(this).prop('clicked') == false){
+        $(".logout").addClass('clicked');
+        $(this).prop('clicked', true);
+      } else {
+        $(".logout").removeClass('clicked');
+        $(this).prop('clicked', false);
+      }
+    })
+
+    $(".logout").click(function(){
+      location.href = "/logout"
+    })
+
+    // add 버튼
+    $(".addBtn_outer").click(function(){
+      if(currentTab == 0) {
+        location.href = "/deviceRegister"
+      } else if(currentTab == 1) {
+        if (deviceN == 0) {
+          alert('There is no registered IoTIZER');
+        } else {
+          location.href = "/defineAction"
+        }
+      } else if(currentTab == 2) {
+        if (actionN == 0) {
+          alert('There is no defined action to use');
+        } else {
+          location.href = "/addNewRule"
+        }
+      }
+    })
+
+    // edit 완료
+    $(".btn_afterP.left").click(function() {
+      console.log('clear')
+      clearPath();
+    })
+
+    $(".btn_afterP.right").click(function(){
+      var fromClient_infoUpdate = {};
+      fromClient_infoUpdate.type = 'actionPath';
+      fromClient_infoUpdate.actionIdx = $('.workspace').prop('index');
+      fromClient_infoUpdate.pathPoints = pathPoints;
+      fromClient_infoUpdate.path = path_;
+      fromClient_infoUpdate.pathList = path_list;
+      console.log(fromClient_infoUpdate)
+      server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+
+      setTimeout(function(){
+        location.href = "/";
+        clearPath();
+      }, 500);
+    })
+
+    function addRule(_img, _ruleName, _actionName, _if, _idx, _status, _condition){
+      var _em = $('#rule_item_template').clone();
+
+      if(_condition == "time") {
+        _em.find('.rule_condition_b').text("When the time is");
+      } else {
+        _em.find('.rule_condition_b').text("When I say");
+      }
+
+      if(_status == "on"){
+        _em.find(".switch1").trigger('click');
+        _em.find(".switch1").val("on")
+      }
+
+      _em.find('.rule_name').text(String(_ruleName));
+      _em.find('.rule_condition').text(String(_if));
+      _em.find('.rule_action').text(String(_actionName));
+      _em.prop('imgURL', _img);
+      _em.find('.rule_item_img').css('background-image', 'url("' + _em.prop('imgURL') + '")');
+      ruleList.push(_em);
+
+      var fromClient_infoUpdate = {};
+      _em.find('.switch1').click(function(){
+        if($(this).val() == "OFF"){
+            $(this).val("ON");
+            console.log('on');
+            fromClient_infoUpdate.type = "ruleStatus"
+            fromClient_infoUpdate.status = "on"
+            fromClient_infoUpdate.idx = Number(_idx) + 1;
+            console.log(fromClient_infoUpdate)
+            server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+        } else{
+            $(this).val("OFF");
+            console.log('off');
+            fromClient_infoUpdate.type = "ruleStatus"
+            fromClient_infoUpdate.status = "off"
+            fromClient_infoUpdate.idx = Number(_idx) + 1;
+            server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+        }
+      })
+
+      //------------ 세팅 아이콘
+      _em.find('.setting_icon_show').click(function(){
+        _em.prop('setting', true);
+        checkedItem ++;
+        if(checkedItem > 1) {
+          $('#iconSetEdit').css('color','rgba(220,220,220)')
+          $('#textSetEdit').css('color','rgba(220,220,220)')
+        }
+        $('#footerTab').addClass('hide');
+        setTimeout(function() {
+          $('#footerSet').removeClass('hide');
+        }, 400);
+        _em.find('.setting_icon_show').hide();
+        _em.find('.setting_icon_hide').show();
+        _em.find('.list_li_image_cover').show();
+      });
+
+      _em.find(".setting_icon_hide").click(function(){
+        _em.prop('setting', false);
+        checkedItem --;
+        if(checkedItem == 0) {
+          $('#footerSet').addClass('hide');
+          setTimeout(function() {
+            $('#footerTab').removeClass('hide');
+          }, 400);
+        } else if(checkedItem == 1) {
+          $('#iconSetEdit').css('color','rgba(160,160,160)')
+          $('#textSetEdit').css('color','rgba(160,160,160)')
+        }
+        _em.find('.setting_icon_hide').hide();
+        _em.find('.setting_icon_show').show();
+        _em.find('.list_li_image_cover').hide();
+      })
+
+      console.log("addRUle")
+      $('#rule_list').append(_em);
+      _em.show();
+    }
+
+    function addDevice(_img, _name, _idx){
+      //------------ item 클론 생성
+      var _em = $('#list_template').clone();
+
+      _em.prop('deviceIdx', _idx);
+      _em.prop('setting', false);
+
+      //------------ 프로필 이미지 설정
+      _em.prop('imgURL', _img);
+      _em.find('.list_li_image').css('background-image', 'url("' + _em.prop('imgURL') + '")');
+      _em.find('.iotizer_name').text(String(_name));
+      _em.prop('name', String(_name));
+
+      deviceList.push(_em);
+
+      //------------ 세팅 아이콘
+      _em.find('.setting_icon_show').click(function(){
+        _em.prop('setting', true);
+        checkedItem ++;
+        if(checkedItem > 1) {
+          $('#iconSetEdit').css('color','rgba(220,220,220)')
+          $('#textSetEdit').css('color','rgba(220,220,220)')
+        }
+        $('#footerTab').addClass('hide');
+        setTimeout(function() {
+          $('#footerSet').removeClass('hide');
+        }, 400);
+        _em.find('.setting_icon_show').hide();
+        _em.find('.setting_icon_hide').show();
+        _em.find('.list_li_image_cover').show();
+      });
+
+      _em.find(".setting_icon_hide").click(function(){
+        _em.prop('setting', false);
+        checkedItem --;
+        if(checkedItem == 0) {
+          $('#footerSet').addClass('hide');
+          setTimeout(function() {
+            $('#footerTab').removeClass('hide');
+          }, 400);
+        } else if(checkedItem == 1) {
+          $('#iconSetEdit').css('color','rgba(160,160,160)')
+          $('#textSetEdit').css('color','rgba(160,160,160)')
+        }
+        _em.find('.setting_icon_hide').hide();
+        _em.find('.setting_icon_show').show();
+        _em.find('.list_li_image_cover').hide();
+      })
+
+      //------------ 작업창 불러오기: item
+      _em.find('.list_li_image').click(function(){
+        if(_em.prop('setting') == false) {
+          $('.workspace_image').css('background-image', 'url("' + _em.prop('imgURL') + '")');
+          $('.workspace').prop('index', Number(_idx)+1);
+          $('#label').text(String(_name));
+          $('#textSubW').text('Touch to Command');
+          $('.workspace').addClass('open');
+          $('.cover_black').fadeIn(300);
+          console.log($('.workspace').prop('tab'))
+          console.log($('.workspace').prop('index'))
+
+          clearCP();
+          clearPath();
+          if($('.workspace').prop('tab') == 1) {
+            drawCP('device' + String($('.workspace').prop('index')));
+          }
+        }
+      });
+
+      _em.find('.view_icon').click(function(){
+        $.ajax({
+          url: '/getCam',
+          method: 'post',
+          data: {index: _em.prop('deviceIdx')},
+          success: function(data){
+            cam = data.cam;
+            $('.workspace_image').css('background-image', 'url("' + cam + '")');
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+        // to be developed;
+        $('#label').text(String(_name));
+        $('#textSubW').text('Current State');
+        $('.workspace').addClass('open');
+        $('.cover_black').fadeIn(300);
+        clearCP();
+        clearPath();
+        console.log('view')
+      })
+
+      //------------ 작업창 내에서 이름 변경
+      var placeholderTarget = $('#input');
+      var fromClient_infoUpdate = {};
+      placeholderTarget.on('focus', function(){
+        $('#label').fadeOut('fast');
+        console.log($('.workspace').prop('index'))
+      });
+      placeholderTarget.on('focusout', function(){
+        if($(this).val() == ''){
+          $('#label').fadeIn('fast');
+        } else if ($(this).val() != '' && $('.workspace').prop('tab') == 1){
+          _em.prop('deviceName', String($(this).val()))
+          fromClient_infoUpdate.type = 'deviceName';
+          fromClient_infoUpdate.deviceIndex = $('.workspace').prop('index');
+          fromClient_infoUpdate.deviceName = String($(this).val());
+        } else if ($(this).val() != '' && $('.workspace').prop('tab') == 2){
+          fromClient_infoUpdate.type = 'actionName';
+          fromClient_infoUpdate.actionIndex = $('.workspace').prop('index');
+          fromClient_infoUpdate.actionName = String($(this).val());
+        }
+      });
+
+      $(".workspace_image").on("swipedown", function() {
+        setTimeout(function(){
+          $('#textSubW').text('Touch to Command');
+          $('.btn_bottom').hide();
+          $('.btn_bottomA').hide();
+        }, 600);
+        if(fromClient_infoUpdate.type != 'none') {
+          setTimeout(function() {
+            server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+            fromClient_infoUpdate.type = 'none';
+          }, 200);
+        }
+      });
+
+      $(".cp_edit").on("swipedown", function() {
+        setTimeout(function(){
+          $('#textSubW').text('Touch to Command');
+          $('.btn_bottom').hide();
+          $('.btn_bottomA').hide();
+        }, 600);
+        if(fromClient_infoUpdate.type != 'none') {
+          setTimeout(function() {
+            server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+            fromClient_infoUpdate.type = 'none';
+          }, 200);
+        }
+      });
+
+      $(".cover_black").click(function() {
+        setTimeout(function(){
+          $('#textSubW').text('Touch to Command');
+          $('.btn_bottom').hide();
+          $('.btn_bottomA').hide();
+        }, 600);
+        if(fromClient_infoUpdate.type != 'none') {
+          setTimeout(function() {
+            server_socket.emit('fromClient_infoUpdate', fromClient_infoUpdate);
+            fromClient_infoUpdate.type = 'none';
+          }, 200);
+        }
+      });
+
+
+      //------------ 클론 코드 append, display none 속성 해제
+      $('#iotizer_list').append(_em);
+      _em.show();
+
+    }
+
+    //---------------------- edit 창 열기
+    $('#edit').click(function(){
+      if(checkedItem == 1 && $('.workspace').prop('tab') == 1) { //device tab
+        var idx = findCheckedItem();
+        console.log(idx)
+        $('.workspace_image').css('background-image', 'url("' + deviceList[idx].prop('imgURL') + '")');
+        $('.workspace').prop('index', Number(idx)+1);
+        $('#label').text(deviceList[idx].prop('name'));
+        $('#textSubW').text('Edit Control Points');
+        $('.workspace').addClass('open');
+        $('.cover_black').fadeIn(300);
+        $('.btn_bottom').show();
+        clearCP();
+        drawCP_e('device' + String($('.workspace').prop('index')));
+      } else if(checkedItem == 1 && $('.workspace').prop('tab') == 2) {  //action tab
+        var idx = findCheckedItemA();
+        var d_idx = findCheckedItemA_D();
+        clearCP();
+        $('.workspace_cover').show();
+        $('.workspace_image').css('background-image', 'url("' + actionList[idx].prop('imgURL') + '")');
+        $('.workspace').prop('index', Number(idx)+1);
+        $('#label').text(actionList[idx].prop('name'));
+        $('#textSubW').text('Edit Action Path');
+        $('.workspace').addClass('open');
+        $('.cover_black').fadeIn(300);
+        $('.btn_bottomA').show();
+        console.log(idx)
+        console.log(actionInfo[idx].pathPoints)
+        clearPath();
+        drawCP_ae('device' + String(d_idx + 1), actionInfo[idx].pathPoints, actionInfo[idx].path, actionInfo[idx].pathList);
+      }
+      //$('.workspace_image').css('background-image', 'url("' + _em.prop('imgURL') + '")');
+    });
+
+
+    function findCheckedItem() {
+      var _idx;
+      for(var i in deviceList) {
+        if(deviceList[i].prop('setting') == true) {
+          _idx = deviceList[i].prop('deviceIdx')
+        }
+      }
+      return _idx;
+    }
+
+    function findCheckedItemA() {
+      var _idx;
+      for(var i in actionList) {
+        if(actionList[i].prop('setting') == true) {
+          _idx = actionList[i].prop('actionIdx')
+        }
+      }
+      return _idx;
+    }
+
+    function findCheckedItemA_D() {
+      var _idx;
+      for(var i in actionList) {
+        if(actionList[i].prop('setting') == true) {
+          _idx = actionList[i].prop('deviceIdx')
+        }
+      }
+      return _idx;
+    }
+
+
+    function addAction(_img, _name, _subName, _idx, _path, _devIdx) {
+      var _em = $('#list_template_action').clone();
+
+      _em.prop('actionIdx', _idx);
+      _em.prop('deviceIdx', _devIdx);
+      _em.prop('setting', false);
+
+      //------------ svg 만들기
+      var svgWidth = String(window.innerWidth*0.45);
+      var svgHeight = String(window.innerHeight*0.26);
+      // var svgID = "svg" + String(_idx);
+      _em.find('.listSVG')
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+      _em.find(".listPath")
+        .attr("d", _path)
+        .attr("stroke-width", "4px")
+        //.attr("marker-start","url(#arrowL)")
+
+      _em.find('.listSVG2')
+        .attr("width", svgWidth)
+        .attr("height", svgHeight)
+        .attr("id", "#listSVG2_" + _idx);
+
+      //------------ 프로필 이미지 설정
+      _em.prop('imgURL', _img);
+      _em.find('.list_li_image').css('background-image', 'url("' + _em.prop('imgURL') + '")');
+      _em.find('.action_name').text(String(_name));
+      _em.find('.action_device').text(String(_subName));
+      _em.prop('name', String(_name));
+
+      actionList.push(_em);
+
+      //------------ 세팅 아이콘
+      _em.find('.setting_icon_show').click(function(){
+        _em.prop('setting', true);
+        checkedItem ++;
+        if(checkedItem > 1) {
+          $('#iconSetEdit').css('color','rgba(220,220,220)')
+          $('#textSetEdit').css('color','rgba(220,220,220)')
+        }
+        $('#footerTab').addClass('hide');
+        setTimeout(function() {
+          $('#footerSet').removeClass('hide');
+        }, 400);
+        _em.find('.setting_icon_show').hide();
+        _em.find('.setting_icon_hide').show();
+        _em.find('.list_li_image_cover').show();
+      });
+
+      _em.find(".setting_icon_hide").click(function(){
+        _em.prop('setting', false);
+        checkedItem --;
+        if(checkedItem == 0) {
+          $('#footerSet').addClass('hide');
+          setTimeout(function() {
+            $('#footerTab').removeClass('hide');
+          }, 400);
+        } else if(checkedItem == 1) {
+          $('#iconSetEdit').css('color','rgba(160,160,160)')
+          $('#textSetEdit').css('color','rgba(160,160,160)')
+        }
+        _em.find('.setting_icon_hide').hide();
+        _em.find('.setting_icon_show').show();
+        _em.find('.list_li_image_cover').hide();
+      })
+
+      //------------ 액션 실행
+      _em.find(".list_li_svg2").click(function(){
+        console.log("action command");
+        var fromClient_command = {};
+        fromClient_command.type = "action";
+        fromClient_command.actionIdx = _em.prop('actionIdx');
+        server_socket.emit('fromClient_command', fromClient_command);
+      })
+
+      //------------ 클론 코드 append, display none 속성 해제
+      $('#action_list').append(_em);
+      _em.show();
+
+      _em.find('.view_icon').click(function(){
+        $.ajax({
+          url: '/getCam',
+          method: 'post',
+          data: {index: _em.prop('deviceIdx')},
+          success: function(data){
+            cam = data.cam;
+            $('.workspace_image').css('background-image', 'url("' + cam + '")');
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+        // to be developed;
+        $('#label').text(String(_name));
+        $('#textSubW').text('Current State');
+        $('.workspace').addClass('open');
+        $('.cover_black').fadeIn(300);
+        clearCP();
+        clearPath();
+        console.log('view')
+      })
+
+      setTimeout(function(){
+        addCP(_idx)
+      },10)
+
+      function addCP(_idx) {
+        function x2list(_x) {
+          var x_ = _x*0.45;
+          return x_;
+        }
+        function y2list(_y) {
+          var y_ = (0.4*_y)-(0.025*window.innerHeight);
+          return y_;
+        }
+
+        //------------ 리스트에 controlpoints
+        // var pCP = pushCP[_devIdx];
+        // var dCP = dragCP[_devIdx];
+        // var rCP = rotateCP[_devIdx];
+
+        // for (var i in pCP) {
+        //   console.log(pCP[i])
+        //   var _circle = $("#circle_template2").clone();
+        //   _circle.attr("cx", x2list(pCP[i].x)).attr("cy", y2list(pCP[i].y)).attr("class", "circle_template2")
+        //
+        //   _em.find(".listSVG2").append(_circle);
+        //   _circle.show();
+        // }
+        //
+        // for (var i in dCP) {
+        //   if(i%3 != 2) {
+        //     var _circle = $("#circle_template4").clone();
+        //     _circle.attr("cx", x2list(dCP[i].x)).attr("cy", y2list(dCP[i].y)).attr("class", "circle_template4");
+        //     _em.find(".listSVG2").append(_circle);
+        //     _circle.show();
+        //   } else if (i%3 == 2) {
+        //     var _path = $(".path_template").clone();
+        //     var _d = "M"+ x2list(dCP[i-2].x) +"," + y2list(dCP[i-2].y) +" L"+ x2list(dCP[i-1].x) +"," + y2list(dCP[i-1].y);
+        //     _path.attr("d", _d).attr("stroke-width", "4px")
+        //     _em.find(".listSVG2").append(_path);
+        //     _path.show();
+        //   }
+        // }
+
+
+
+        for(var i in actionInfo[_idx].pathPoints) {
+          if(i==0) {
+            var _circle = $("#circle_template0").clone();
+            _circle.attr("cx", 92.7).attr("cy", 73);
+            _em.find(".listSVG2").append(_circle);
+            //console.log("append: " + _idx + ", " + i)
+            _circle.show();
+            d3.select("#circle_template0").raise();
+          } else {
+            if(actionInfo[_idx].pathPoints[i].type == "dragStart" || actionInfo[_idx].pathPoints[i].type == "rotateStart"){
+              var _circle = $("#circle_template2").clone();
+              _circle.attr("cx", x2list(actionInfo[_idx].pathPoints[i].x)).attr("cy", y2list(actionInfo[_idx].pathPoints[i].y));
+              _em.find(".listSVG2").append(_circle);
+              _circle.show();
+            } else {
+              var _circle = $("#circle_template1").clone();
+              _circle.attr("cx", x2list(actionInfo[_idx].pathPoints[i].x)).attr("cy", y2list(actionInfo[_idx].pathPoints[i].y));
+              _em.find(".listSVG2").append(_circle);
+              if(actionInfo[_idx].pathPoints[i].type != "rotating") {
+                _circle.show();
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //---------------------- socket 통신
+    server_socket.on('reload', function() {
+      location.reload();
+    })
+
+    //---------------------- viewport size 고정
+    $(document).ready(function() {
+      let viewheight = $(window).height();
+      let viewwidth = $(window).width();
+      let viewport = document.querySelector("meta[name=viewport]");
+      viewport.setAttribute("content", "height=" + viewheight + "px, width=" + viewwidth + "px, initial-scale=1.0");
+    });
+
+  </script>
+
+
+</body>
+</html>

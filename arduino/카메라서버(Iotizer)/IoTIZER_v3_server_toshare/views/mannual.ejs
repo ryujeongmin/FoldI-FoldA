@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name=”apple-mobile-web-app-capable” content=”yes”>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>IoTIZER</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/stylesheet\ui.css">
+    <link rel="stylesheet" href="/stylesheet\manualControllerUI.css">
+    <link rel="stylesheet" href="/stylesheet\button.css">
+    <link rel="stylesheet" href="/stylesheet\asRange.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="js/jquery-asRange.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i');
+
+        body{
+            margin: 0px;
+            color: white;
+            font-family: 'Nunito', sans-serif !important;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+
+<body>
+  <div class="titlebar">
+    <div class="titlebar-logo">IoTIZER</div>
+  </div>
+
+  <div class="canvas">
+    <div class="button" id="fowardRadius">
+      <button class="controlBtn"><i class="material-icons">keyboard_arrow_up</i></button>
+    </div>
+    <div class="button 2" id="theta">
+      <div id="posInfo">
+        <input type="text" name="rPos" id="posInfoInR">
+        <div id="reset"><div id="resetIn">Reset</div></div>
+      </div>
+      <button class="controlBtn" id="ccwTheta"><i class="material-icons">rotate_left</i></button>
+      <button class="controlBtn" id="cwTheta"><i class="material-icons">rotate_right</i></button>
+    </div>
+    <div class="button" id="backRadius">
+      <button class="controlBtn"><i class="material-icons">keyboard_arrow_down</i></button>
+    </div>
+    <div class="button 3" id="push">
+      <button class="controlBtn" id="pushU"><i class="material-icons">arrow_upward</i></button>
+      <button class="controlBtn" id="pushDU"><i class="material-icons">radio_button_unchecked</i></button>
+      <button class="controlBtn" id="pushD"><i class="material-icons">arrow_downward</i></button>
+    </div>
+  </div>
+
+    <script>
+
+        var server_socket = io.connect(window.location.host);
+
+        var data_to_arduino ={};
+        data_to_arduino.type = "mannual";
+        //server_socket.emit('fromClient_mannual', data_to_arduino);
+
+        server_socket.on('toweb', function(data) {
+          var strSplit = data.split(',');
+          document.getElementById("posInfoIn").innerHTML = "R: " + strSplit[0] + ", T: " + strSplit[1];
+        })
+
+        $("#fowardRadius").click(function(){
+          console.log('click')
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "fowardRadius";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#ccwTheta").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "ccwTheta";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#cwTheta").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "cwTheta";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#backRadius").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "backRadius";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#pushDU").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "zero";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#pushD").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "pushD";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#pushU").click(function(){
+          data_to_arduino.uid = $("input[name=rPos]").val();
+          data_to_arduino.btn = "pushU";
+          server_socket.emit('fromClient_mannual', data_to_arduino);
+        })
+
+        $("#moveTo").click(function(){
+          var rPos = $("input[name=rPos]").val();
+          var tPos = $("input[name=tPos]").val();
+          var targetP = {};
+          targetP.rPos = rPos;
+          targetP.tPos = tPos;
+          server_socket.emit('moveTo', targetP);
+        })
+
+        $("#reset").click(function(){
+          server_socket.emit('posReset', 'posReset');
+        })
+
+
+        var data_from_arduino;
+/*
+        server_socket.on('message', function(data){
+            data_from_arduino = JSON.parse(data);
+
+            if(data_from_arduino.button){
+                $("#circle").css("background","#EEE");
+            }
+            else{
+                $("#circle").css("background","#3e5984");
+            }
+
+            $("#circle").css("width", (data_from_arduino.potentiometer/1024)*300);
+            $("#circle").css("padding-top", (data_from_arduino.potentiometer/1024)*300);
+            $("#circle").css("border-radius", (data_from_arduino.potentiometer/1024)*300);
+        });
+*/
+
+    </script>
+</body>
+</html>
